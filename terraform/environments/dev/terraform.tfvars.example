@@ -1,0 +1,43 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored — never commit real secrets.
+
+# ── Core ──────────────────────────────────────────────────────────────────────
+aws_region   = "ap-south-1"
+project_name = "aws-network-lab"
+environment  = "dev"
+
+# ── Network ───────────────────────────────────────────────────────────────────
+vpc_cidr            = "10.0.0.0/16"
+availability_zones  = ["a", "b"]
+
+public_subnet_cidrs      = ["10.0.1.0/24", "10.0.2.0/24"]
+private_app_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24"]
+private_db_subnet_cidrs  = ["10.0.21.0/24", "10.0.22.0/24"]
+
+# ── Application ───────────────────────────────────────────────────────────────
+app_instance_type  = "t3.micro"
+app_instance_count = 2
+app_port           = 8080
+key_pair_name      = ""          # Set to your EC2 key pair name for SSH access
+
+# ── RDS ───────────────────────────────────────────────────────────────────────
+db_engine          = "postgres"
+db_engine_version  = "15.4"
+db_instance_class  = "db.t3.micro"
+db_name            = "appdb"
+db_username        = "dbadmin"  # Password is auto-generated and stored in Secrets Manager
+db_allocated_storage = 20
+db_multi_az        = false       # Set true for production
+
+# ── DNS / TLS ─────────────────────────────────────────────────────────────────
+# To enable DNS and TLS, set create_dns = true, create_tls = true,
+# and provide a domain name you own and have a Route 53 hosted zone for.
+create_dns  = false
+create_tls  = false
+domain_name = ""   # e.g. "example.com"
+subdomain   = "app"
+
+# ── Other ─────────────────────────────────────────────────────────────────────
+enable_flow_logs        = true
+flow_log_retention_days = 7
+alb_deletion_protection = false
